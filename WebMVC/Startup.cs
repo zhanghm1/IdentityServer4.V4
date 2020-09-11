@@ -26,7 +26,7 @@ namespace WebMVC
             services.AddControllersWithViews();
 
             JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
-            string IdentityUrl = "http://localhost:5000";
+            string IdentityUrl = "https://localhost:5001";
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = "Cookies";

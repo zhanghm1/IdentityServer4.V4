@@ -6,6 +6,7 @@ using IdentityServer4.V4.Data;
 using IdentityServer4.V4.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -53,7 +54,7 @@ namespace IdentityServer4.V4
 
             services.Configure<CookiePolicyOptions>(options =>
             {
-                options.MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.Lax;
+                options.MinimumSameSitePolicy = SameSiteMode.Lax;
             });
         }
 
@@ -97,6 +98,7 @@ namespace IdentityServer4.V4
 
                 // see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
                 options.EmitStaticAudienceClaim = true;
+                options.Authentication.CookieSameSiteMode = Microsoft.AspNetCore.Http.SameSiteMode.Lax;
             })
             .AddInMemoryIdentityResources(Config.Ids)
             .AddInMemoryApiScopes(Config.Apis)

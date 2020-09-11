@@ -31,7 +31,7 @@ namespace WebMVC.Controllers
         public async Task<IActionResult> Privacy()
         {
             var accessToken = await HttpContext.GetTokenAsync("access_token");
-            string orderServerUrl = "http://localhost:5001/WeatherForecast";
+            string orderServerUrl = "http://localhost:5002/WeatherForecast";
             var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             var content = await client.GetStringAsync(orderServerUrl);
