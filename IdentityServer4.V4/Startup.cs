@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 
 namespace IdentityServer4.V4
 {
@@ -38,7 +39,22 @@ namespace IdentityServer4.V4
 
             AddIdentityServer(services);
 
+            services.AddAuthentication("Bearer").AddJwtBearer("Bearer", options =>
+               {
+                   options.Authority = "http://localhost:5000";
+                   options.RequireHttpsMetadata = false;
+
+                   options.TokenValidationParameters = new TokenValidationParameters
+                   {
+                       ValidateAudience = false
+                   };
+               });
             services.AddScoped<ApplicationDbSeedData>();
+
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.Lax;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,7 +72,7 @@ namespace IdentityServer4.V4
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseCookiePolicy();
             app.UseIdentityServer();
             app.UseAuthorization();
 

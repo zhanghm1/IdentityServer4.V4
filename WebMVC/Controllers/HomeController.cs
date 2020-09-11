@@ -36,6 +36,11 @@ namespace WebMVC.Controllers
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             var content = await client.GetStringAsync(orderServerUrl);
             ViewBag.json = content;
+
+            string identityServerUrl = "http://localhost:5000/api/values";
+            var identityTest = await client.GetStringAsync(identityServerUrl);
+            ViewBag.identityTest = identityTest;
+
             return View();
         }
 
