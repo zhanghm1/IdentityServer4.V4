@@ -51,11 +51,6 @@ namespace IdentityServer4.V4
                    };
                });
             services.AddScoped<ApplicationDbSeedData>();
-
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                options.MinimumSameSitePolicy = SameSiteMode.Lax;
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -73,7 +68,6 @@ namespace IdentityServer4.V4
             app.UseStaticFiles();
 
             app.UseRouting();
-            app.UseCookiePolicy();
             app.UseIdentityServer();
             app.UseAuthorization();
 
@@ -98,7 +92,7 @@ namespace IdentityServer4.V4
 
                 // see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
                 options.EmitStaticAudienceClaim = true;
-                options.Authentication.CookieSameSiteMode = Microsoft.AspNetCore.Http.SameSiteMode.Lax;
+                // options.Authentication.CookieSameSiteMode = Microsoft.AspNetCore.Http.SameSiteMode.Unspecified;
             })
             .AddInMemoryIdentityResources(Config.Ids)
             .AddInMemoryApiScopes(Config.Apis)
