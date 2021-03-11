@@ -33,10 +33,27 @@ namespace IdentityServer4.V4
                 ClientId = "mvc",
                 ClientSecrets = { new Secret("secret".Sha256()) },
                 AllowedGrantTypes = GrantTypes.Code,
-                RequireConsent = true,
+                RequireConsent = false,
                 RequirePkce = true,
                 RedirectUris = { "https://localhost:5005/signin-oidc" },
                 PostLogoutRedirectUris = { "https://localhost:5005/signout-callback-oidc" },
+                AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "api1"
+                    },
+                AllowOfflineAccess = true
+            };
+            var MVCOrder = new Client
+            {
+                ClientId = "MVCOrder",
+                ClientSecrets = { new Secret("secret".Sha256()) },
+                AllowedGrantTypes = GrantTypes.Code,
+                RequireConsent = false,
+                RequirePkce = true,
+                RedirectUris = { "https://localhost:5007/signin-oidc" },
+                PostLogoutRedirectUris = { "https://localhost:5007/signout-callback-oidc" },
                 AllowedScopes = new List<string>
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
@@ -59,7 +76,7 @@ namespace IdentityServer4.V4
                     },
                 AllowOfflineAccess = true
             };
-            var list = new List<Client>() { MVC, JsVue };
+            var list = new List<Client>() { MVC, JsVue, MVCOrder };
             return list;
         }
     }

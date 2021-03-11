@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Autofac;
-using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +28,8 @@ namespace WebApi
             services.AddControllers();
             services.AddMemoryCache();
 
+            services.AddScoped<IUserService, UserService>();
+
             services.AddAuthentication("Bearer")
            .AddJwtBearer("Bearer", options =>
            {
@@ -46,15 +46,10 @@ namespace WebApi
                 options.AddPolicy("ApiScope", policy =>
                 {
                     policy.RequireAuthenticatedUser();
-                    policy.RequireClaim("scope", "api11");
+                    policy.RequireClaim("scope", "api1");
                 });
             });
             //services.AddScoped<IUserService, UserService>();
-        }
-
-        public void ConfigureContainer(ContainerBuilder builder)
-        {
-            builder.RegisterModule(new AutofacModule());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
